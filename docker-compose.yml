@@ -1,0 +1,21 @@
+services:
+  orientacion:
+    build: .
+    container_name: orientacion-web
+    restart: unless-stopped
+    volumes:
+      - ./2026 Palencia:/app/data:ro
+    networks:
+      - web
+    ports:
+      - "8087:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.orientacion.rule=Host(`orientacion.warein.me`)"
+      - "traefik.http.routers.orientacion.entrypoints=web"
+      - "traefik.http.routers.orientacion.tls.certresolver=myresolver"
+      - "traefik.http.services.orientacion.loadbalancer.server.port=8080"
+
+networks:
+  web:
+    external: true
